@@ -7,6 +7,7 @@ end
 
 ruby '2.4.1'
 #ruby-gemset=sample_app
+gem 'bootstrap-sass'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -42,6 +43,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'pry-rails'
 end
 
 group :development do
