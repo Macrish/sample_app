@@ -8,6 +8,7 @@ end
 ruby '2.4.1'
 #ruby-gemset=sample_app
 gem 'bootstrap-sass'
+gem 'bcrypt-ruby'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
