@@ -9,6 +9,7 @@ ruby '2.4.1'
 #ruby-gemset=sample_app
 gem 'bootstrap-sass'
 gem 'bcrypt-ruby'
+gem 'jquery-rails'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -62,6 +63,8 @@ end
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'cucumber-rails', '1.4.0', :require => false
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
