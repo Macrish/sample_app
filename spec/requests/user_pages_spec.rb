@@ -42,20 +42,20 @@ RSpec.describe "UserPages", type: :request do
         end
       end
 
-       describe "after saving the user" do
-         before do
-           fill_in "Email",        with: "tatianadavydiuk@gmail.com"
-           fill_in "Password",     with: "123456"
-           click_button submit
-         end
-         let(:user) { User.find_by(email: 'user@example.com') }
-         #it { should have_link ('Account') }
-         #it { should have_link('Sign out') }
-         #it { should have_title(user.name) }
-         #it { should have_selector('div.alert.alert-success', text: 'Welcome') }
-       end
+      describe "after saving the user" do
+        before do
+          fill_in "Email",        with: "tatianadavydiuk@gmail.com"
+          fill_in "Password",     with: "123456"
+          click_button submit
+        end
+        let(:user) { User.find_by(email: 'user@example.com') }
+        #it { should have_link ('Account') }
+        #it { should have_link('Sign out') }
+        #it { should have_title(user.name) }
+        #it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+      end
 
-       describe "edit" do
+      describe "edit" do
         let(:user) { FactoryGirl.create(:user) }
         before { visit edit_user_path(user) }
 
@@ -69,6 +69,24 @@ RSpec.describe "UserPages", type: :request do
           before { click_button "Save changes" }
 
           it { should have_content('error') }
+        end
+
+        describe "with valid information" do
+          let(:new_name)  { "New Name" }
+          let(:new_email) { "new@example.com" }
+          before do
+            fill_in "Name",             with: new_name
+            fill_in "Email",            with: new_email
+            fill_in "Password",         with: user.password
+            fill_in "Confirm Password", with: user.password
+            click_button "Save changes"
+          end
+
+          it { should have_title(new_name) }
+          it { should have_selector('div.alert.alert-success') }
+          it { should have_link('Sign out') }
+          specify { expect(user.reload.name).to  eq new_name }
+          specify { expect(user.reload.email).to eq new_email }
         end
       end
     end
