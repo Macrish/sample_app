@@ -10,7 +10,9 @@ ruby '2.4.1'
 gem 'bootstrap-sass'
 gem 'bcrypt-ruby'
 gem 'jquery-rails'
-
+gem 'faker'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.2'
