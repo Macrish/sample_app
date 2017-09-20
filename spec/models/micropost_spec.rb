@@ -10,4 +10,11 @@ RSpec.describe Micropost, type: :model do
 
   it { should respond_to(:content) }
   it { should respond_to(:user_id) }
+
+  it { should be_valid }
+
+  describe "when user_id isn't present " do
+    before { @micropost.user_id = nil }
+    it { should_not be_valid }
+  end
 end
