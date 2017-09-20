@@ -16,6 +16,8 @@ RSpec.describe User, type: :model do
   it { should respond_to(:authenticate) }
   it { should be_valid }
   it { should_not be_admin }
+  it { should respond_to(:admin) }
+  it { should respond_to(:microposts) }
 
   describe "with admin attribute set to 'true'" do
     before do
@@ -94,21 +96,43 @@ RSpec.describe User, type: :model do
     before { @user.save }
     let(:found_user) { User.find_by(email: @user.email) }
 
-  describe "with valid password" do
-    it { should eq found_user.authenticate(@user.password) }
-  end
+    describe "with valid password" do
+      it { should eq found_user.authenticate(@user.password) }
+    end
 
-  describe "with invalid password" do
-    let(:user_for_invalid_password) { found_user.authenticate("invalid") }
+    describe "with invalid password" do
+      let(:user_for_invalid_password) { found_user.authenticate("invalid") }
 
-    it { should_not eq user_for_invalid_password }
-    specify { expect(user_for_invalid_password).to eq false }
+      it { should_not eq user_for_invalid_password }
+      specify { expect(user_for_invalid_password).to eq false }
     end
 
     describe "remember token" do
-       before { @user.save }
-       it(:remember_token) { should_not be_blank }
+      before { @user.save }
+      it(:remember_token) { should_not be_blank }
+    end
+  end
+
+  describe "micropost associations" do
+    before { @user.save }
+    let!(:older_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
     end
 
+    it "should have the right microposts in the right order" do
+      expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
+    end
+
+    it "should destroy associated microposts" do
+      microposts = @user.microposts.to_a
+      @user.destroy
+      expect(microposts).not_to be_empty
+      microposts.each do |micropost|
+        expect(Micropost.where(id: micropost.id)).to be_empty
+      end
+    end
   end
 end

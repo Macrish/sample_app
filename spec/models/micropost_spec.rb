@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Micropost, type: :model do
   let(:user) { FactoryGirl.create(:user) }
-  before do
-    @micropost = Micropost.new(content: "Lorem ipsum", user_id: user.id)
-  end
+  before { @micropost = user.microposts.build(content: "Lorem ipsum") }
 
   subject { @micropost }
 
   it { should respond_to(:content) }
   it { should respond_to(:user_id) }
+  it { should respond_to(:user) }
+  #it(:user) { should eq user }
 
   it { should be_valid }
 
